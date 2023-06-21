@@ -1,0 +1,59 @@
+stages:
+  - build
+  - deploy
+  - clean
+
+variables:
+  MAVEN_OPTS: "-Dhttps.protocols=TLSv1.2 -Dmaven.repo.local=$CI_PROJECT_DIR/.m2/repository -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=WARN -Dorg.slf4j.simpleLogger.showDateTime=true -Djava.awt.headless=true"
+  MAVEN_CLI_OPTS: "--batch-mode --errors --fail-at-end --show-version -DinstallAtEnd=true -DdeployAtEnd=true"
+  CLOUDFRONT_DISTRIBUTION_ID: "E1P870SI90V3TW"
+
+cache:
+  paths:
+    - .m2/repository
+build:
+  stage: build
+  script:
+    - 'mvn install:install-file -Dfile=./lib/plugin.jar -DgroupId=com.sun.jdk -DartifactId=plugin -Dpackaging=jar -Dversion=0.0.1'
+  #    - 'mvn $MAVEN_CLI_OPTS clean install -DskipTests'
+  image: maven:3.6.0-jdk-8
+
+deploy:release:
+  stage: deploy
+  script:
+    - 'mvn $MAVEN_CLI_OPTS -DskipTests deploy --settings settings.xml'
+  only:
+    - master
+  image: maven:3.6.0-jdk-8
+
+deploy:preview:
+  stage: deploy
+  script:
+    - 'mvn $MAVEN_CLI_OPTS -DskipTests deploy --settings settings.xml -DaltDeploymentRepository=s3.artifacts.client::default::s3://zenyte-runelite/preview'
+  only:
+    - develop
+  image: maven:3.6.0-jdk-8
+
+.invalidate_cloudfront_cache:
+  image: "python:latest"
+  stage: clean
+  dependencies:
+    - build
+  before_script:
+    - pip install awscli
+    - export AWS_ACCESS_KEY_ID=$AWS_S3_ACCESS_KEY
+    - export AWS_SECRET_ACCESS_KEY=$AWS_S3_SECRET_ACCESS_KEY
+
+invalidate:release:
+  extends: .invalidate_cloudfront_cache
+  script:
+    - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/release/net/runelite/client*"
+  only:
+    - master
+
+invalidate:preview:
+  extends: .invalidate_cloudfront_cache
+  script:
+    - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/preview/net/runelite/client*"
+  only:
+    - develop

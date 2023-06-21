@@ -1,0 +1,442 @@
+.id                 395
+.int_stack_count    3
+.string_stack_count 1
+.int_var_count      11
+.string_var_count   4
+   iconst                 83
+   iconst                 49
+   iconst                 1497
+   iload                  0
+   enum                  
+   istore                 3
+   iload                  0
+   stat                  
+   tostring              
+   cc_settext            
+   iload                  0
+   stat_base             
+   istore                 4
+   iload                  0                   ; load the skill id from arguments
+   iload                  4                   ; load the current real skill level
+   sconst                 "skillTabBaseLevel" ; push event name
+   runelite_callback     ; invoke callback
+   istore                 4                   ; store the (possibly) edited real skill level
+   iload                  4
+   tostring
+   cc_settext             1
+   iload                  0
+   stat_xp
+   istore                 5
+   sconst                 ","
+   sstore                 1
+   sload                  0
+   sconst                 " XP:"
+   join_string            2
+   sstore                 2
+   iload                  5
+   sload                  1
+   invoke                 46
+   sstore                 3
+   iconst                 0
+   istore                 6
+   get_varbit             4181
+   iconst                 0
+   if_icmpeq              LABEL53
+   sload                  2
+   sconst                 "|Next level at:"
+   append
+   sstore                 2
+   sload                  3
+   sconst                 "|"
+   iconst                 105
+   iconst                 105
+   iconst                 256
+   iload                  4
+   iconst                 1
+   add
+   enum
+   sload                  1
+   invoke                 46
+   join_string            2
+   append
+   sstore                 3
+   jump                   LABEL83
+LABEL53:
+   iload                  4
+   iconst                 99
+   sconst                 "skillTabMaxLevel"   ; push event name
+   runelite_callback     ; invoke callback
+   if_icmplt              LABEL57
+   jump                   LABEL83
+LABEL57:
+   iconst                 105
+   iconst                 105
+   iconst                 256
+   iload                  4
+   iconst                 1
+   add
+   enum
+   istore                 6
+   sload                  2
+   sconst                 "|Next level at:|Remaining XP:"
+   append
+   sstore                 2
+   sload                  3
+   sconst                 "|"
+   iload                  6
+   sload                  1
+   invoke                 46
+   sconst                 "|"
+   iload                  6
+   iload                  5
+   sub
+   sload                  1
+   invoke                 46
+   join_string            4
+   append
+   sstore                 3
+LABEL83:
+   iconst                 0
+   istore                 7
+   iconst                 0
+   istore                 8
+   iconst                 0
+   istore                 9
+   iconst                 0
+   istore                 10
+   invoke                 1138
+   iconst                 1
+   if_icmpeq              LABEL95
+   jump                   LABEL274
+LABEL95:
+   iload                  0
+   invoke                 1936
+   istore                 7
+   iload                  7
+   iconst                 -1
+   if_icmpne              LABEL102
+   jump                   LABEL132
+LABEL102:
+   iload                  7
+   iconst                 10
+   div
+   istore                 7
+   iload                  7
+   iload                  5
+   if_icmpgt              LABEL110
+   jump                   LABEL132
+LABEL110:
+   sload                  2
+   sconst                 "|"
+   sconst                 "<col=7c0808>"
+   sconst                 "XP to regain:"
+   sconst                 "</col>"
+   join_string            4
+   append
+   sstore                 2
+   sload                  3
+   sconst                 "|"
+   sconst                 "<col=7c0808>"
+   iload                  7
+   iload                  5
+   sub
+   sload                  1
+   invoke                 46
+   sconst                 "</col>"
+   join_string            4
+   append
+   sstore                 3
+   iconst                 1
+   istore                 8
+LABEL132:
+   iload                  8
+   iconst                 0
+   if_icmpeq              LABEL136
+   jump                   LABEL274
+LABEL136:
+   get_varp               1588
+   iconst                 0
+   if_icmpgt              LABEL140
+   jump                   LABEL274
+LABEL140:
+   iload                  0
+   switch
+      0: LABEL143
+      1: LABEL231
+      2: LABEL143
+      4: LABEL187
+      6: LABEL143
+   jump                   LABEL274
+LABEL143:
+   iconst                 20
+   invoke                 2031
+   istore                 10
+   iload                  10
+   iconst                 0
+   if_icmpgt              LABEL168
+   iconst                 1
+   istore                 9
+   sload                  2
+   sconst                 "|"
+   sconst                 "<col=7c0808>"
+   sconst                 "XP permitted:"
+   sconst                 "</col>"
+   join_string            4
+   append
+   sstore                 2
+   sload                  3
+   sconst                 "|"
+   sconst                 "<col=7c0808>"
+   sconst                 "NONE"
+   sconst                 "</col>"
+   join_string            4
+   append
+   sstore                 3
+   jump                   LABEL274
+LABEL168:
+   sload                  2
+   sconst                 "|"
+   sconst                 "<col=7c0808>"
+   sconst                 "XP permitted:"
+   sconst                 "</col>"
+   join_string            4
+   append
+   sstore                 2
+   sload                  3
+   sconst                 "|"
+   sconst                 "<col=7c0808>"
+   iload                  10
+   sload                  1
+   invoke                 46
+   sconst                 "</col>"
+   join_string            4
+   append
+   sstore                 3
+   jump                   LABEL274
+LABEL187:
+   iconst                 30
+   invoke                 2031
+   istore                 10
+   iload                  10
+   iconst                 0
+   if_icmpgt              LABEL212
+   iconst                 1
+   istore                 9
+   sload                  2
+   sconst                 "|"
+   sconst                 "<col=7c0808>"
+   sconst                 "XP permitted:"
+   sconst                 "</col>"
+   join_string            4
+   append
+   sstore                 2
+   sload                  3
+   sconst                 "|"
+   sconst                 "<col=7c0808>"
+   sconst                 "NONE"
+   sconst                 "</col>"
+   join_string            4
+   append
+   sstore                 3
+   jump                   LABEL274
+LABEL212:
+   sload                  2
+   sconst                 "|"
+   sconst                 "<col=7c0808>"
+   sconst                 "XP permitted:"
+   sconst                 "</col>"
+   join_string            4
+   append
+   sstore                 2
+   sload                  3
+   sconst                 "|"
+   sconst                 "<col=7c0808>"
+   iload                  10
+   sload                  1
+   invoke                 46
+   sconst                 "</col>"
+   join_string            4
+   append
+   sstore                 3
+   jump                   LABEL274
+LABEL231:
+   iconst                 40
+   invoke                 2031
+   istore                 10
+   iload                  10
+   iconst                 0
+   if_icmpgt              LABEL256
+   iconst                 1
+   istore                 9
+   sload                  2
+   sconst                 "|"
+   sconst                 "<col=7c0808>"
+   sconst                 "XP permitted:"
+   sconst                 "</col>"
+   join_string            4
+   append
+   sstore                 2
+   sload                  3
+   sconst                 "|"
+   sconst                 "<col=7c0808>"
+   sconst                 "NONE"
+   sconst                 "</col>"
+   join_string            4
+   append
+   sstore                 3
+   jump                   LABEL274
+LABEL256:
+   sload                  2
+   sconst                 "|"
+   sconst                 "<col=7c0808>"
+   sconst                 "XP permitted:"
+   sconst                 "</col>"
+   join_string            4
+   append
+   sstore                 2
+   sload                  3
+   sconst                 "|"
+   sconst                 "<col=7c0808>"
+   iload                  10
+   sload                  1
+   invoke                 46
+   sconst                 "</col>"
+   join_string            4
+   append
+   sstore                 3
+LABEL274:
+   iload                  1
+   iconst                 5
+   cc_find                1
+   iconst                 1
+   if_icmpeq              LABEL306
+   iload                  1
+   iconst                 5
+   iconst                 5
+   cc_create              1
+   iconst                 6
+   iconst                 0
+   iconst                 0
+   iconst                 1
+   cc_setposition         1
+   iconst                 19
+   iconst                 19
+   iconst                 0
+   iconst                 0
+   cc_setsize             1
+   iconst                 940
+   cc_setgraphic          1
+   iconst                 65793
+   cc_setgraphicshadow    1
+   iload                  9
+   iconst                 1
+   if_icmpeq              LABEL303
+   iconst                 1
+   cc_sethide             1
+   jump                   LABEL314
+LABEL303:
+   iconst                 0
+   cc_sethide             1
+   jump                   LABEL314
+LABEL306:
+   iload                  9
+   iconst                 1
+   if_icmpeq              LABEL312
+   iconst                 1
+   cc_sethide             1
+   jump                   LABEL314
+LABEL312:
+   iconst                 0
+   cc_sethide             1
+LABEL314:
+   iload                  0
+   iconst                 22
+   if_icmpeq              LABEL341
+   iload                  3
+   iconst                 1
+   if_icmpeq              LABEL321
+   jump                   LABEL352
+LABEL321:
+   map_members
+   iconst                 0
+   if_icmpeq              LABEL325
+   jump                   LABEL352
+LABEL325:
+   get_varc_int           103
+   iconst                 0
+   if_icmpeq              LABEL329
+   jump                   LABEL352
+LABEL329:
+   sconst                 "<col=ff0000>"
+   sload                  0
+   sconst                 ":"
+   sconst                 "</col>"
+   join_string            4
+   sstore                 2
+   sconst                 "<col=ff0000>"
+   sconst                 "Members Only"
+   sconst                 "</col>"
+   join_string            3
+   sstore                 3
+   jump                   LABEL352
+LABEL341:
+   sconst                 "<col=ff0000>"
+   sload                  0
+   sconst                 ":"
+   sconst                 "</col>"
+   join_string            4
+   sstore                 2
+   sconst                 "<col=ff0000>"
+   sconst                 "Unavailable"
+   sconst                 "</col>"
+   join_string            3
+   sstore                 3
+LABEL352:
+   invoke                 1972
+   iconst                 1
+   if_icmpeq              LABEL369
+   iconst                 992
+   iconst                 -2147483645
+   iconst                 -1
+   iload                  2
+   sload                  2
+   sload                  3
+   iconst                 495
+   iconst                 5
+   sconst                 "IiIssii"
+   iload                  1
+   if_setonmouserepeat
+   iconst                 0
+   set_varc_int           2
+   jump                   LABEL395
+LABEL369:
+   iconst                 2367
+   iconst                 -2147483644
+   iconst                 -2147483645
+   iconst                 -1
+   iload                  2
+   sload                  2
+   sload                  3
+   iconst                 495
+   sconst                 "iIiIssi"
+   iload                  1
+   if_setonop
+   get_varc_int           218
+   iload                  1
+   if_icmpeq              LABEL384
+   jump                   LABEL395
+LABEL384:
+   get_varc_int           217
+   iconst                 -1
+   if_icmpeq              LABEL388
+   jump                   LABEL395
+LABEL388:
+   iload                  1
+   iconst                 -1
+   iload                  2
+   sload                  2
+   sload                  3
+   iconst                 495
+   invoke                 2344
+LABEL395:
+   return                
